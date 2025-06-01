@@ -5,7 +5,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: backend
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: 843756393997.dkr.ecr.ap-south-1.amazonaws.com/2nd10weeksofcloudops-main-backend:latest
+        image: 843756393997.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
         ports:
         - containerPort: 80
         env:
