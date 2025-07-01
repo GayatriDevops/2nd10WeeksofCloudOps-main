@@ -76,7 +76,15 @@ app.put("/books/:id", (req, res) => {
     return res.json(data);
   });
 });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
 
-app.listen(80, () => {
+
+/*app.listen(80, () => {
   console.log("Connected to backend.");
 });
+
+
+
