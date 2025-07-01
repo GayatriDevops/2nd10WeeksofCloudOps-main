@@ -40,6 +40,10 @@ jobs:
         run: |
           cd backend
           npm install
+          sudo npm install -g corepack -y
+          corepack enable
+          corepack prepare yarn@stable --activate 
+          sudo npm install -g pm2
           npm install dotenv
           sudo pm2 start index.js --name "backendApi"
 
