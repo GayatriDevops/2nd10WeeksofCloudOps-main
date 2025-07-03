@@ -3,21 +3,19 @@ import mysql from "mysql";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-
 const app = express();
 
-dotenv.config();
+
+dotenv.config()
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan("common"));
-
-// Create a MySQL connection using the dedicated DB_PORT for the database
+app.use(morgan('common'));
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
+  host: process.env.DB_HOST ,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 3306,  // Using DB_PORT for MySQL
+  port: process.env.PORT,
   database: "test",
 });
 
@@ -37,8 +35,7 @@ app.get("/books", (req, res) => {
 });
 
 app.post("/books", (req, res) => {
-  const q =
-    "INSERT INTO books(`title`, `desc`, `price`, `cover`) VALUES (?)";
+  const q = "INSERT INTO books(`title`, `desc`, `price`, `cover`) VALUES (?)";
 
   const values = [
     req.body.title,
@@ -55,7 +52,7 @@ app.post("/books", (req, res) => {
 
 app.delete("/books/:id", (req, res) => {
   const bookId = req.params.id;
-  const q = "DELETE FROM books WHERE id = ?";
+  const q = " DELETE FROM books WHERE id = ? ";
 
   db.query(q, [bookId], (err, data) => {
     if (err) return res.send(err);
@@ -65,8 +62,7 @@ app.delete("/books/:id", (req, res) => {
 
 app.put("/books/:id", (req, res) => {
   const bookId = req.params.id;
-  const q =
-    "UPDATE books SET `title` = ?, `desc` = ?, `price` = ?, `cover` = ? WHERE id = ?";
+  const q = "UPDATE books SET `title`= ?, `desc`= ?, `price`= ?, `cover`= ? WHERE id = ?";
 
   const values = [
     req.body.title,
@@ -75,14 +71,17 @@ app.put("/books/:id", (req, res) => {
     req.body.cover,
   ];
 
-  db.query(q, [...values, bookId], (err, data) => {
+  db.query(q, [...values,bookId], (err, data) => {
     if (err) return res.send(err);
     return res.json(data);
   });
 });
-
-// Set the port for the Express server: use Azure's assigned port via process.env.PORT or fallback to 3000.
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
+});
+
+
+app.listen(80, () => {
+  console.log("Connected to backend.");
 });
